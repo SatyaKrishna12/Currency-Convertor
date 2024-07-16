@@ -1,6 +1,6 @@
 let main_url =
-  "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies";
-
+  "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies";
+  
 let dropdowns = document.querySelectorAll(".dropdown select");
 let btn = document.querySelector("button");
 let fromcurr = document.querySelector(".from select");
@@ -19,8 +19,8 @@ for (let select of dropdowns) {
       newoption.selected = "selected";
     }
   }
-  select.addEventListener("change", (evt) => {
-    updateflag(evt.target);
+  select.addEventListener("change", (e) => {
+    updateflag(e.target);
   });
 }
 
@@ -43,13 +43,14 @@ const updatepage = async () => {
     amtvalue = 1;
     amount.value = "1";
   }
-  const url = `${main_url}/${fromcurr.value.toLowerCase()}/${tocurr.value.toLowerCase()}.json`;
+  const url = `${main_url}/${fromcurr.value.toLowerCase()}.json`;
   let result = await fetch(url);
   let data = await result.json();
-  let rate = data[tocurr.value.toLowerCase()];
+  let rate = data[fromcurr.value.toLowerCase()][tocurr.value.toLowerCase()];
   let finalamt = amtvalue * rate;
   last.innerHTML = `${amtvalue}${fromcurr.value}=${finalamt}${tocurr.value}`;
 };
+
 window.addEventListener("load", () => {
   updatepage();
 });
